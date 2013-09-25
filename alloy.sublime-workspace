@@ -1,0 +1,276 @@
+{
+	"auto_complete":
+	{
+		"selected_items":
+		[
+		]
+	},
+	"buffers":
+	[
+		{
+			"contents": "<?php\n// Make sure we have path to web root so we can base URLs from it\nif(!defined('ALLOY_WEB_ROOT')) {\n    define('ALLOY_WEB_ROOT', dirname(__DIR__) . '/www');\n}\n\n// Configuration\n$cfg = require dirname(dirname(__DIR__)) . '/alloy/config/app.php';\n$alloy = $cfg['alloy'];\n$app = array();\n\n// Directories (from install root)\n$app['dir']['root'] = '/';\n$app['dir']['config'] = $app['dir']['root'] . 'config/';\n$app['dir']['www'] = $app['dir']['root'] . 'www/';\n$app['dir']['assets'] = $app['dir']['www'] . 'assets/';\n$app['dir']['lib'] = $app['dir']['root'] . 'lib/';\n$app['dir']['layouts'] = $app['dir']['root'] . 'layouts/';\n\n// Full root paths\n$app['path']['root'] = dirname(__DIR__);\n$app['path']['config'] = __DIR__;\n$app['path']['www'] = $app['path']['root'] . $app['dir']['www'];\n$app['path']['lib'] = $app['path']['root'] . $app['dir']['lib'];\n$app['path']['layouts'] = $app['path']['root'] . $app['dir']['layouts'];\n\n// Request URL from .htaccess or query string\n// ------------------------------------------\n$requestUrl = '/' . (isset($_GET['u']) ? $_GET['u'] : '');\n$requestPath = parse_url(isset($_SERVER['REQUEST_URI']) ? $_SERVER['REQUEST_URI'] : '/', PHP_URL_PATH);\n$urlBase = $requestPath;\n\n// Replace last occurance of request URL in full path if found\n$pathPos = strpos($requestPath, $requestUrl);\nif($requestUrl != '/' && false !== $pathPos) {\n    $urlBase = substr_replace($urlBase, '', $pathPos, strlen($requestUrl));\n}\n\n// URL info\n$isHttps = (!isset($_SERVER['HTTPS']) || strtolower($_SERVER['HTTPS']) != 'on') ? false : true;\n$urlHost = (isset($_SERVER['HTTP_HOST']) ? $_SERVER['HTTP_HOST'] : 'localhost');\n// ------------------------------------------\n\n// URL Config values\n$cfg['url']['root'] = 'http' . (($isHttps) ? 's' : '' ) . '://' . $urlHost . '' . rtrim($urlBase, '/') . '/';\n$cfg['url']['assets'] = $cfg['url']['root'] . str_replace($app['dir']['www'], '', $app['dir']['assets']);\n\n// Use Apache/IIS/nginx rewrite on URLs?\n$cfg['url']['rewrite'] = true;\n\n// Autoload paths\n$app['autoload'] = array(\n    'namespaces' => array(\n        'Alloy' => $alloy['path']['lib'],\n        'App' => $app['path']['lib'],\n        'Module' => array($app['path']['root'], $alloy['path']['root']),\n        'Plugin' => array($app['path']['root'], $alloy['path']['root'])\n    ),\n    'prefixes' => array(\n        'Zend_' => $app['path']['lib']\n    )\n);\n\n// Plugins loaded\n$app['plugins'] = array(\n    'Alloy_Layout', # app/Plugin/Alloy/Layout\n    'Spot' # vendor/Plugin/Spot\n);\n\n// Layout to wrap around response (if Alloy_Layout plugin enabled)\n$app['layout'] = array(\n    'enabled' => true,\n    'template' => 'app'\n);\n\n// Debug?\n$app['debug'] = false;\n\n// In Development Mode?\n$app['mode']['development'] = true;\n\n// Database (Optional - only used if your app uses it)\n$app['database']['master'] = array(\n    'adapter' => 'mysql',\n    'host' => 'localhost',\n    'username' => 'root',\n    'password' => '',\n    'database' => 'alloy',\n    'options' => array(\n        PDO::ERRMODE_EXCEPTION => true,\n        PDO::ATTR_PERSISTENT => false,\n        PDO::ATTR_EMULATE_PREPARES => true\n    )\n);\n\n// Session Settings\n$app['session']['lifetime'] = 28000;\n\n// Locale Settings\n$app['i18n'] = array(\n    'charset' => 'UTF-8',\n    'language' => 'en_US',\n    'timezone' => 'America/Indianapolis',\n    'date_format' => 'M d, Y',\n    'time_format' => 'H:i:s'\n);\n\nreturn $cfg + array('app' => $app);",
+			"file": "app/config/app.php",
+			"file_size": 3391,
+			"file_write_time": 130245639936700198,
+			"settings":
+			{
+				"buffer_size": 3396,
+				"line_ending": "Unix"
+			}
+		}
+	],
+	"build_system": "",
+	"command_palette":
+	{
+		"height": 370.0,
+		"selected_items":
+		[
+			[
+				"remo",
+				"Package Control: Remove Package"
+			],
+			[
+				"doc",
+				"Snippet: DOCTYPE HTML"
+			],
+			[
+				"doctype",
+				"Snippet: DOCTYPE HTML"
+			],
+			[
+				"inst",
+				"Package Control: Install Package"
+			],
+			[
+				"ins",
+				"Package Control: Install Package"
+			],
+			[
+				"in",
+				"Package Control: Install Package"
+			],
+			[
+				"install",
+				"Bower: Install"
+			]
+		],
+		"width": 496.0
+	},
+	"console":
+	{
+		"height": 126.0,
+		"history":
+		[
+			"import urllib.request,os; pf = 'Package Control.sublime-package'; ipp = sublime.installed_packages_path(); urllib.request.install_opener( urllib.request.build_opener( urllib.request.ProxyHandler()) ); open(os.path.join(ipp, pf), 'wb').write(urllib.request.urlopen( 'http://sublime.wbond.net/' + pf.replace(' ','%20')).read())"
+		]
+	},
+	"distraction_free":
+	{
+		"menu_visible": true,
+		"show_minimap": false,
+		"show_open_files": false,
+		"show_tabs": false,
+		"side_bar_visible": false,
+		"status_bar_visible": false
+	},
+	"file_history":
+	[
+		"/C/Users/Matt/Vagrant/precise64/redemption/.bowerrc",
+		"/C/Users/Matt/AppData/Roaming/Sublime Text 3/Packages/Default/Preferences.sublime-settings",
+		"/C/Users/Matt/AppData/Roaming/Sublime Text 3/Packages/User/Preferences.sublime-settings",
+		"/C/Users/Matt/AppData/Roaming/Sublime Text 3/Packages/SideBarEnhancements/CHANGELOG"
+	],
+	"find":
+	{
+		"height": 34.0
+	},
+	"find_in_files":
+	{
+		"height": 0.0,
+		"where_history":
+		[
+		]
+	},
+	"find_state":
+	{
+		"case_sensitive": false,
+		"find_history":
+		[
+		],
+		"highlight": true,
+		"in_selection": false,
+		"preserve_case": false,
+		"regex": false,
+		"replace_history":
+		[
+		],
+		"reverse": false,
+		"show_context": true,
+		"use_buffer2": true,
+		"whole_word": false,
+		"wrap": true
+	},
+	"groups":
+	[
+		{
+			"selected": 0,
+			"sheets":
+			[
+				{
+					"buffer": 0,
+					"file": "app/config/app.php",
+					"semi_transient": false,
+					"settings":
+					{
+						"buffer_size": 3396,
+						"regions":
+						{
+						},
+						"selection":
+						[
+							[
+								924,
+								924
+							]
+						],
+						"settings":
+						{
+							"BracketHighlighterBusy": false,
+							"bh_regions":
+							[
+								"bh_double_quote",
+								"bh_double_quote_center",
+								"bh_double_quote_open",
+								"bh_double_quote_close",
+								"bh_square",
+								"bh_square_center",
+								"bh_square_open",
+								"bh_square_close",
+								"bh_default",
+								"bh_default_center",
+								"bh_default_open",
+								"bh_default_close",
+								"bh_curly",
+								"bh_curly_center",
+								"bh_curly_open",
+								"bh_curly_close",
+								"bh_angle",
+								"bh_angle_center",
+								"bh_angle_open",
+								"bh_angle_close",
+								"bh_tag",
+								"bh_tag_center",
+								"bh_tag_open",
+								"bh_tag_close",
+								"bh_unmatched",
+								"bh_unmatched_center",
+								"bh_unmatched_open",
+								"bh_unmatched_close",
+								"bh_round",
+								"bh_round_center",
+								"bh_round_open",
+								"bh_round_close",
+								"bh_regex",
+								"bh_regex_center",
+								"bh_regex_open",
+								"bh_regex_close",
+								"bh_single_quote",
+								"bh_single_quote_center",
+								"bh_single_quote_open",
+								"bh_single_quote_close"
+							],
+							"incomplete_sync": null,
+							"is_xml": false,
+							"remote_loading": false,
+							"synced": false,
+							"syntax": "Packages/PHP/PHP.tmLanguage",
+							"tab_size": 4,
+							"translate_tabs_to_spaces": true
+						},
+						"translation.x": 0.0,
+						"translation.y": 360.0,
+						"zoom_level": 1.0
+					},
+					"type": "text"
+				}
+			]
+		}
+	],
+	"incremental_find":
+	{
+		"height": 23.0
+	},
+	"input":
+	{
+		"height": 32.0
+	},
+	"layout":
+	{
+		"cells":
+		[
+			[
+				0,
+				0,
+				1,
+				1
+			]
+		],
+		"cols":
+		[
+			0.0,
+			1.0
+		],
+		"rows":
+		[
+			0.0,
+			1.0
+		]
+	},
+	"menu_visible": true,
+	"output.sftp":
+	{
+		"height": 0.0
+	},
+	"project": "alloy.sublime-project",
+	"replace":
+	{
+		"height": 42.0
+	},
+	"save_all_on_build": true,
+	"select_file":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"select_project":
+	{
+		"height": 500.0,
+		"selected_items":
+		[
+		],
+		"width": 380.0
+	},
+	"select_symbol":
+	{
+		"height": 0.0,
+		"selected_items":
+		[
+		],
+		"width": 0.0
+	},
+	"settings":
+	{
+	},
+	"show_minimap": true,
+	"show_open_files": false,
+	"show_tabs": true,
+	"side_bar_visible": true,
+	"side_bar_width": 191.0,
+	"status_bar_visible": true,
+	"template_settings":
+	{
+	}
+}

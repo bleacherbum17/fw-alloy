@@ -1,0 +1,17 @@
+{
+  "name": "fatwin",
+  "version": "0.0.0",
+  "authors": [
+    "Matt Williams <mwilliams@cik.com>"
+  ],
+  "description": "Fatwin (Instant Win) on Alloy PHP Framework/Ractive/RequireJS",
+  "license": "MIT",
+  "private": true,
+  "dependencies": {
+    "bootstrap": "twbs/bootstrap#~3.0.0",
+    "ractive": "Rich-Harris/Ractive#~0.3.6",
+    "requirejs": "~2.1.8",
+    "jquery": "~2.0.3",
+    "text": "requirejs/text#~2.0.10"
+  }
+}
